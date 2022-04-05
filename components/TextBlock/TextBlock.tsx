@@ -99,7 +99,7 @@ export default function TextBlock(props: Props): JSX.Element {
 				value={value}
 				// rows={1}
 				ref={areaRef}
-				onInput={e => parentRef.current.dataset.replicatedValue = e.target.value}
+				onInput={e => parentRef.current.dataset.replicatedValue = (e.target as HTMLTextAreaElement).value}
 				// className="bg-light rounded-3 border-0 overflow-hidden resize-none w-full  p-5 "
 				className="font-normal text-slate-600"
 				onChange={registerKey}
