@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import React, { useEffect, useState, useCallback, useContext, useMemo } from "react";
-import io from 'Socket.IO-client';
 import { useAuth } from "../../../lib/auth/useAuth";
 
 import DocHeader from "../../DocHeader";
