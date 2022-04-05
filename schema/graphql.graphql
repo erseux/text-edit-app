@@ -1,0 +1,1878 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"whether this query should be cached (Hasura Cloud only)"
+directive @cached(
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+  """measured in seconds"""
+  ttl: Int! = 60
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+  """does the column NOT match the given pattern"""
+  _nlike: String
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""the items that constitute a document"""
+type documentItems {
+  """An object relationship"""
+  document: documents!
+  document_id: uuid!
+  flags(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  id: uuid!
+  index: Int!
+  text: String!
+}
+
+"""
+aggregated selection of "document_items"
+"""
+type documentItems_aggregate {
+  aggregate: documentItems_aggregate_fields
+  nodes: [documentItems!]!
+}
+
+"""
+aggregate fields of "document_items"
+"""
+type documentItems_aggregate_fields {
+  avg: documentItems_avg_fields
+  count(columns: [documentItems_select_column!], distinct: Boolean): Int!
+  max: documentItems_max_fields
+  min: documentItems_min_fields
+  stddev: documentItems_stddev_fields
+  stddev_pop: documentItems_stddev_pop_fields
+  stddev_samp: documentItems_stddev_samp_fields
+  sum: documentItems_sum_fields
+  var_pop: documentItems_var_pop_fields
+  var_samp: documentItems_var_samp_fields
+  variance: documentItems_variance_fields
+}
+
+"""
+order by aggregate values of table "document_items"
+"""
+input documentItems_aggregate_order_by {
+  avg: documentItems_avg_order_by
+  count: order_by
+  max: documentItems_max_order_by
+  min: documentItems_min_order_by
+  stddev: documentItems_stddev_order_by
+  stddev_pop: documentItems_stddev_pop_order_by
+  stddev_samp: documentItems_stddev_samp_order_by
+  sum: documentItems_sum_order_by
+  var_pop: documentItems_var_pop_order_by
+  var_samp: documentItems_var_samp_order_by
+  variance: documentItems_variance_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input documentItems_append_input {
+  flags: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "document_items"
+"""
+input documentItems_arr_rel_insert_input {
+  data: [documentItems_insert_input!]!
+  """upsert condition"""
+  on_conflict: documentItems_on_conflict
+}
+
+"""aggregate avg on columns"""
+type documentItems_avg_fields {
+  index: Float
+}
+
+"""
+order by avg() on columns of table "document_items"
+"""
+input documentItems_avg_order_by {
+  index: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "document_items". All fields are combined with a logical 'AND'.
+"""
+input documentItems_bool_exp {
+  _and: [documentItems_bool_exp!]
+  _not: documentItems_bool_exp
+  _or: [documentItems_bool_exp!]
+  document: documents_bool_exp
+  document_id: uuid_comparison_exp
+  flags: jsonb_comparison_exp
+  id: uuid_comparison_exp
+  index: Int_comparison_exp
+  text: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "document_items"
+"""
+enum documentItems_constraint {
+  """unique or primary key constraint"""
+  document_items_document_id_index_key
+  """unique or primary key constraint"""
+  document_items_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input documentItems_delete_at_path_input {
+  flags: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input documentItems_delete_elem_input {
+  flags: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input documentItems_delete_key_input {
+  flags: String
+}
+
+"""
+input type for incrementing numeric columns in table "document_items"
+"""
+input documentItems_inc_input {
+  index: Int
+}
+
+"""
+input type for inserting data into table "document_items"
+"""
+input documentItems_insert_input {
+  document: documents_obj_rel_insert_input
+  document_id: uuid
+  flags: jsonb
+  id: uuid
+  index: Int
+  text: String
+}
+
+"""aggregate max on columns"""
+type documentItems_max_fields {
+  document_id: uuid
+  id: uuid
+  index: Int
+  text: String
+}
+
+"""
+order by max() on columns of table "document_items"
+"""
+input documentItems_max_order_by {
+  document_id: order_by
+  id: order_by
+  index: order_by
+  text: order_by
+}
+
+"""aggregate min on columns"""
+type documentItems_min_fields {
+  document_id: uuid
+  id: uuid
+  index: Int
+  text: String
+}
+
+"""
+order by min() on columns of table "document_items"
+"""
+input documentItems_min_order_by {
+  document_id: order_by
+  id: order_by
+  index: order_by
+  text: order_by
+}
+
+"""
+response of any mutation on the table "document_items"
+"""
+type documentItems_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [documentItems!]!
+}
+
+"""
+on_conflict condition type for table "document_items"
+"""
+input documentItems_on_conflict {
+  constraint: documentItems_constraint!
+  update_columns: [documentItems_update_column!]! = []
+  where: documentItems_bool_exp
+}
+
+"""Ordering options when selecting data from "document_items"."""
+input documentItems_order_by {
+  document: documents_order_by
+  document_id: order_by
+  flags: order_by
+  id: order_by
+  index: order_by
+  text: order_by
+}
+
+"""primary key columns input for table: documentItems"""
+input documentItems_pk_columns_input {
+  id: uuid!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input documentItems_prepend_input {
+  flags: jsonb
+}
+
+"""
+select columns of table "document_items"
+"""
+enum documentItems_select_column {
+  """column name"""
+  document_id
+  """column name"""
+  flags
+  """column name"""
+  id
+  """column name"""
+  index
+  """column name"""
+  text
+}
+
+"""
+input type for updating data in table "document_items"
+"""
+input documentItems_set_input {
+  document_id: uuid
+  flags: jsonb
+  id: uuid
+  index: Int
+  text: String
+}
+
+"""aggregate stddev on columns"""
+type documentItems_stddev_fields {
+  index: Float
+}
+
+"""
+order by stddev() on columns of table "document_items"
+"""
+input documentItems_stddev_order_by {
+  index: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type documentItems_stddev_pop_fields {
+  index: Float
+}
+
+"""
+order by stddev_pop() on columns of table "document_items"
+"""
+input documentItems_stddev_pop_order_by {
+  index: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type documentItems_stddev_samp_fields {
+  index: Float
+}
+
+"""
+order by stddev_samp() on columns of table "document_items"
+"""
+input documentItems_stddev_samp_order_by {
+  index: order_by
+}
+
+"""aggregate sum on columns"""
+type documentItems_sum_fields {
+  index: Int
+}
+
+"""
+order by sum() on columns of table "document_items"
+"""
+input documentItems_sum_order_by {
+  index: order_by
+}
+
+"""
+update columns of table "document_items"
+"""
+enum documentItems_update_column {
+  """column name"""
+  document_id
+  """column name"""
+  flags
+  """column name"""
+  id
+  """column name"""
+  index
+  """column name"""
+  text
+}
+
+"""aggregate var_pop on columns"""
+type documentItems_var_pop_fields {
+  index: Float
+}
+
+"""
+order by var_pop() on columns of table "document_items"
+"""
+input documentItems_var_pop_order_by {
+  index: order_by
+}
+
+"""aggregate var_samp on columns"""
+type documentItems_var_samp_fields {
+  index: Float
+}
+
+"""
+order by var_samp() on columns of table "document_items"
+"""
+input documentItems_var_samp_order_by {
+  index: order_by
+}
+
+"""aggregate variance on columns"""
+type documentItems_variance_fields {
+  index: Float
+}
+
+"""
+order by variance() on columns of table "document_items"
+"""
+input documentItems_variance_order_by {
+  index: order_by
+}
+
+"""connection between users and what documents they can edit"""
+type document_members {
+  """An object relationship"""
+  document: documents!
+  document_id: uuid!
+  """An object relationship"""
+  document_role: document_roles!
+  id: uuid!
+  role: document_roles_enum!
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "document_members"
+"""
+type document_members_aggregate {
+  aggregate: document_members_aggregate_fields
+  nodes: [document_members!]!
+}
+
+"""
+aggregate fields of "document_members"
+"""
+type document_members_aggregate_fields {
+  count(columns: [document_members_select_column!], distinct: Boolean): Int!
+  max: document_members_max_fields
+  min: document_members_min_fields
+}
+
+"""
+order by aggregate values of table "document_members"
+"""
+input document_members_aggregate_order_by {
+  count: order_by
+  max: document_members_max_order_by
+  min: document_members_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "document_members"
+"""
+input document_members_arr_rel_insert_input {
+  data: [document_members_insert_input!]!
+  """upsert condition"""
+  on_conflict: document_members_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "document_members". All fields are combined with a logical 'AND'.
+"""
+input document_members_bool_exp {
+  _and: [document_members_bool_exp!]
+  _not: document_members_bool_exp
+  _or: [document_members_bool_exp!]
+  document: documents_bool_exp
+  document_id: uuid_comparison_exp
+  document_role: document_roles_bool_exp
+  id: uuid_comparison_exp
+  role: document_roles_enum_comparison_exp
+  user: users_bool_exp
+  userId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "document_members"
+"""
+enum document_members_constraint {
+  """unique or primary key constraint"""
+  document_members_pkey
+  """unique or primary key constraint"""
+  document_members_user_id_document_id_key
+}
+
+"""
+input type for inserting data into table "document_members"
+"""
+input document_members_insert_input {
+  document: documents_obj_rel_insert_input
+  document_id: uuid
+  document_role: document_roles_obj_rel_insert_input
+  id: uuid
+  role: document_roles_enum
+  user: users_obj_rel_insert_input
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type document_members_max_fields {
+  document_id: uuid
+  id: uuid
+  userId: uuid
+}
+
+"""
+order by max() on columns of table "document_members"
+"""
+input document_members_max_order_by {
+  document_id: order_by
+  id: order_by
+  userId: order_by
+}
+
+"""aggregate min on columns"""
+type document_members_min_fields {
+  document_id: uuid
+  id: uuid
+  userId: uuid
+}
+
+"""
+order by min() on columns of table "document_members"
+"""
+input document_members_min_order_by {
+  document_id: order_by
+  id: order_by
+  userId: order_by
+}
+
+"""
+response of any mutation on the table "document_members"
+"""
+type document_members_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [document_members!]!
+}
+
+"""
+on_conflict condition type for table "document_members"
+"""
+input document_members_on_conflict {
+  constraint: document_members_constraint!
+  update_columns: [document_members_update_column!]! = []
+  where: document_members_bool_exp
+}
+
+"""Ordering options when selecting data from "document_members"."""
+input document_members_order_by {
+  document: documents_order_by
+  document_id: order_by
+  document_role: document_roles_order_by
+  id: order_by
+  role: order_by
+  user: users_order_by
+  userId: order_by
+}
+
+"""primary key columns input for table: document_members"""
+input document_members_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "document_members"
+"""
+enum document_members_select_column {
+  """column name"""
+  document_id
+  """column name"""
+  id
+  """column name"""
+  role
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "document_members"
+"""
+input document_members_set_input {
+  document_id: uuid
+  id: uuid
+  role: document_roles_enum
+  userId: uuid
+}
+
+"""
+update columns of table "document_members"
+"""
+enum document_members_update_column {
+  """column name"""
+  document_id
+  """column name"""
+  id
+  """column name"""
+  role
+  """column name"""
+  userId
+}
+
+"""
+columns and relationships of "document_roles"
+"""
+type document_roles {
+  comment: String!
+  """
+  fetch data from the table: "document_members"
+  """
+  document_members(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): [document_members!]!
+  """An aggregate relationship"""
+  document_members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): document_members_aggregate!
+  value: String!
+}
+
+"""
+aggregated selection of "document_roles"
+"""
+type document_roles_aggregate {
+  aggregate: document_roles_aggregate_fields
+  nodes: [document_roles!]!
+}
+
+"""
+aggregate fields of "document_roles"
+"""
+type document_roles_aggregate_fields {
+  count(columns: [document_roles_select_column!], distinct: Boolean): Int!
+  max: document_roles_max_fields
+  min: document_roles_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "document_roles". All fields are combined with a logical 'AND'.
+"""
+input document_roles_bool_exp {
+  _and: [document_roles_bool_exp!]
+  _not: document_roles_bool_exp
+  _or: [document_roles_bool_exp!]
+  comment: String_comparison_exp
+  document_members: document_members_bool_exp
+  value: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "document_roles"
+"""
+enum document_roles_constraint {
+  """unique or primary key constraint"""
+  document_roles_pkey
+}
+
+enum document_roles_enum {
+  """can only read"""
+  read
+  """can write"""
+  write
+}
+
+"""
+Boolean expression to compare columns of type "document_roles_enum". All fields are combined with logical 'AND'.
+"""
+input document_roles_enum_comparison_exp {
+  _eq: document_roles_enum
+  _in: [document_roles_enum!]
+  _is_null: Boolean
+  _neq: document_roles_enum
+  _nin: [document_roles_enum!]
+}
+
+"""
+input type for inserting data into table "document_roles"
+"""
+input document_roles_insert_input {
+  comment: String
+  document_members: document_members_arr_rel_insert_input
+  value: String
+}
+
+"""aggregate max on columns"""
+type document_roles_max_fields {
+  comment: String
+  value: String
+}
+
+"""aggregate min on columns"""
+type document_roles_min_fields {
+  comment: String
+  value: String
+}
+
+"""
+response of any mutation on the table "document_roles"
+"""
+type document_roles_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [document_roles!]!
+}
+
+"""
+input type for inserting object relation for remote table "document_roles"
+"""
+input document_roles_obj_rel_insert_input {
+  data: document_roles_insert_input!
+  """upsert condition"""
+  on_conflict: document_roles_on_conflict
+}
+
+"""
+on_conflict condition type for table "document_roles"
+"""
+input document_roles_on_conflict {
+  constraint: document_roles_constraint!
+  update_columns: [document_roles_update_column!]! = []
+  where: document_roles_bool_exp
+}
+
+"""Ordering options when selecting data from "document_roles"."""
+input document_roles_order_by {
+  comment: order_by
+  document_members_aggregate: document_members_aggregate_order_by
+  value: order_by
+}
+
+"""primary key columns input for table: document_roles"""
+input document_roles_pk_columns_input {
+  value: String!
+}
+
+"""
+select columns of table "document_roles"
+"""
+enum document_roles_select_column {
+  """column name"""
+  comment
+  """column name"""
+  value
+}
+
+"""
+input type for updating data in table "document_roles"
+"""
+input document_roles_set_input {
+  comment: String
+  value: String
+}
+
+"""
+update columns of table "document_roles"
+"""
+enum document_roles_update_column {
+  """column name"""
+  comment
+  """column name"""
+  value
+}
+
+"""stores document"""
+type documents {
+  created_at: timestamptz!
+  id: uuid!
+  """An array relationship"""
+  items(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): [documentItems!]!
+  """An aggregate relationship"""
+  items_aggregate(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): documentItems_aggregate!
+  """An array relationship"""
+  members(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): [document_members!]!
+  """An aggregate relationship"""
+  members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): document_members_aggregate!
+  """An object relationship"""
+  owner: users!
+  ownerId: uuid!
+  title: String!
+  updated_at: timestamptz
+}
+
+"""
+aggregated selection of "documents"
+"""
+type documents_aggregate {
+  aggregate: documents_aggregate_fields
+  nodes: [documents!]!
+}
+
+"""
+aggregate fields of "documents"
+"""
+type documents_aggregate_fields {
+  count(columns: [documents_select_column!], distinct: Boolean): Int!
+  max: documents_max_fields
+  min: documents_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "documents". All fields are combined with a logical 'AND'.
+"""
+input documents_bool_exp {
+  _and: [documents_bool_exp!]
+  _not: documents_bool_exp
+  _or: [documents_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  items: documentItems_bool_exp
+  members: document_members_bool_exp
+  owner: users_bool_exp
+  ownerId: uuid_comparison_exp
+  title: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "documents"
+"""
+enum documents_constraint {
+  """unique or primary key constraint"""
+  documents_pkey
+}
+
+"""
+input type for inserting data into table "documents"
+"""
+input documents_insert_input {
+  created_at: timestamptz
+  id: uuid
+  items: documentItems_arr_rel_insert_input
+  members: document_members_arr_rel_insert_input
+  owner: users_obj_rel_insert_input
+  ownerId: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type documents_max_fields {
+  created_at: timestamptz
+  id: uuid
+  ownerId: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""aggregate min on columns"""
+type documents_min_fields {
+  created_at: timestamptz
+  id: uuid
+  ownerId: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "documents"
+"""
+type documents_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [documents!]!
+}
+
+"""
+input type for inserting object relation for remote table "documents"
+"""
+input documents_obj_rel_insert_input {
+  data: documents_insert_input!
+  """upsert condition"""
+  on_conflict: documents_on_conflict
+}
+
+"""
+on_conflict condition type for table "documents"
+"""
+input documents_on_conflict {
+  constraint: documents_constraint!
+  update_columns: [documents_update_column!]! = []
+  where: documents_bool_exp
+}
+
+"""Ordering options when selecting data from "documents"."""
+input documents_order_by {
+  created_at: order_by
+  id: order_by
+  items_aggregate: documentItems_aggregate_order_by
+  members_aggregate: document_members_aggregate_order_by
+  owner: users_order_by
+  ownerId: order_by
+  title: order_by
+  updated_at: order_by
+}
+
+"""primary key columns input for table: documents"""
+input documents_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "documents"
+"""
+enum documents_select_column {
+  """column name"""
+  created_at
+  """column name"""
+  id
+  """column name"""
+  ownerId
+  """column name"""
+  title
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "documents"
+"""
+input documents_set_input {
+  created_at: timestamptz
+  id: uuid
+  ownerId: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""
+update columns of table "documents"
+"""
+enum documents_update_column {
+  """column name"""
+  created_at
+  """column name"""
+  id
+  """column name"""
+  ownerId
+  """column name"""
+  title
+  """column name"""
+  updated_at
+}
+
+scalar jsonb
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete single row from the table: "documents"
+  """
+  deleteDocument(id: uuid!): documents
+  """
+  delete single row from the table: "document_items"
+  """
+  deleteDocumentItem(id: uuid!): documentItems
+  """
+  delete data from the table: "document_items"
+  """
+  deleteDocumentItems(
+    """filter the rows which have to be deleted"""
+    where: documentItems_bool_exp!
+  ): documentItems_mutation_response
+  """
+  delete data from the table: "documents"
+  """
+  deleteDocuments(
+    """filter the rows which have to be deleted"""
+    where: documents_bool_exp!
+  ): documents_mutation_response
+  """
+  delete data from the table: "document_members"
+  """
+  delete_document_members(
+    """filter the rows which have to be deleted"""
+    where: document_members_bool_exp!
+  ): document_members_mutation_response
+  """
+  delete single row from the table: "document_members"
+  """
+  delete_document_members_by_pk(id: uuid!): document_members
+  """
+  delete data from the table: "document_roles"
+  """
+  delete_document_roles(
+    """filter the rows which have to be deleted"""
+    where: document_roles_bool_exp!
+  ): document_roles_mutation_response
+  """
+  delete single row from the table: "document_roles"
+  """
+  delete_document_roles_by_pk(value: String!): document_roles
+  """
+  delete data from the table: "users"
+  """
+  delete_users(
+    """filter the rows which have to be deleted"""
+    where: users_bool_exp!
+  ): users_mutation_response
+  """
+  delete single row from the table: "users"
+  """
+  delete_users_by_pk(email: String!, idpId: String!): users
+  """
+  insert a single row into the table: "documents"
+  """
+  insertDocument(
+    """the row to be inserted"""
+    object: documents_insert_input!
+    """upsert condition"""
+    on_conflict: documents_on_conflict
+  ): documents
+  """
+  insert a single row into the table: "document_items"
+  """
+  insertDocumentItem(
+    """the row to be inserted"""
+    object: documentItems_insert_input!
+    """upsert condition"""
+    on_conflict: documentItems_on_conflict
+  ): documentItems
+  """
+  insert data into the table: "document_items"
+  """
+  insertDocumentItems(
+    """the rows to be inserted"""
+    objects: [documentItems_insert_input!]!
+    """upsert condition"""
+    on_conflict: documentItems_on_conflict
+  ): documentItems_mutation_response
+  """
+  insert data into the table: "documents"
+  """
+  insertDocuments(
+    """the rows to be inserted"""
+    objects: [documents_insert_input!]!
+    """upsert condition"""
+    on_conflict: documents_on_conflict
+  ): documents_mutation_response
+  """
+  insert data into the table: "document_members"
+  """
+  insert_document_members(
+    """the rows to be inserted"""
+    objects: [document_members_insert_input!]!
+    """upsert condition"""
+    on_conflict: document_members_on_conflict
+  ): document_members_mutation_response
+  """
+  insert a single row into the table: "document_members"
+  """
+  insert_document_members_one(
+    """the row to be inserted"""
+    object: document_members_insert_input!
+    """upsert condition"""
+    on_conflict: document_members_on_conflict
+  ): document_members
+  """
+  insert data into the table: "document_roles"
+  """
+  insert_document_roles(
+    """the rows to be inserted"""
+    objects: [document_roles_insert_input!]!
+    """upsert condition"""
+    on_conflict: document_roles_on_conflict
+  ): document_roles_mutation_response
+  """
+  insert a single row into the table: "document_roles"
+  """
+  insert_document_roles_one(
+    """the row to be inserted"""
+    object: document_roles_insert_input!
+    """upsert condition"""
+    on_conflict: document_roles_on_conflict
+  ): document_roles
+  """
+  insert data into the table: "users"
+  """
+  insert_users(
+    """the rows to be inserted"""
+    objects: [users_insert_input!]!
+    """upsert condition"""
+    on_conflict: users_on_conflict
+  ): users_mutation_response
+  """
+  insert a single row into the table: "users"
+  """
+  insert_users_one(
+    """the row to be inserted"""
+    object: users_insert_input!
+    """upsert condition"""
+    on_conflict: users_on_conflict
+  ): users
+  """
+  update single row of the table: "documents"
+  """
+  updateDocument(
+    """sets the columns of the filtered rows to the given values"""
+    _set: documents_set_input
+    pk_columns: documents_pk_columns_input!
+  ): documents
+  """
+  update single row of the table: "document_items"
+  """
+  updateDocumentItem(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: documentItems_append_input
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: documentItems_delete_at_path_input
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: documentItems_delete_elem_input
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: documentItems_delete_key_input
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: documentItems_inc_input
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: documentItems_prepend_input
+    """sets the columns of the filtered rows to the given values"""
+    _set: documentItems_set_input
+    pk_columns: documentItems_pk_columns_input!
+  ): documentItems
+  """
+  update data of the table: "document_items"
+  """
+  updateDocumentItems(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: documentItems_append_input
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: documentItems_delete_at_path_input
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: documentItems_delete_elem_input
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: documentItems_delete_key_input
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: documentItems_inc_input
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: documentItems_prepend_input
+    """sets the columns of the filtered rows to the given values"""
+    _set: documentItems_set_input
+    """filter the rows which have to be updated"""
+    where: documentItems_bool_exp!
+  ): documentItems_mutation_response
+  """
+  update data of the table: "documents"
+  """
+  updateDocuments(
+    """sets the columns of the filtered rows to the given values"""
+    _set: documents_set_input
+    """filter the rows which have to be updated"""
+    where: documents_bool_exp!
+  ): documents_mutation_response
+  """
+  update data of the table: "document_members"
+  """
+  update_document_members(
+    """sets the columns of the filtered rows to the given values"""
+    _set: document_members_set_input
+    """filter the rows which have to be updated"""
+    where: document_members_bool_exp!
+  ): document_members_mutation_response
+  """
+  update single row of the table: "document_members"
+  """
+  update_document_members_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: document_members_set_input
+    pk_columns: document_members_pk_columns_input!
+  ): document_members
+  """
+  update data of the table: "document_roles"
+  """
+  update_document_roles(
+    """sets the columns of the filtered rows to the given values"""
+    _set: document_roles_set_input
+    """filter the rows which have to be updated"""
+    where: document_roles_bool_exp!
+  ): document_roles_mutation_response
+  """
+  update single row of the table: "document_roles"
+  """
+  update_document_roles_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: document_roles_set_input
+    pk_columns: document_roles_pk_columns_input!
+  ): document_roles
+  """
+  update data of the table: "users"
+  """
+  update_users(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+    """filter the rows which have to be updated"""
+    where: users_bool_exp!
+  ): users_mutation_response
+  """
+  update single row of the table: "users"
+  """
+  update_users_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+    pk_columns: users_pk_columns_input!
+  ): users
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+  """in ascending order, nulls first"""
+  asc_nulls_first
+  """in ascending order, nulls last"""
+  asc_nulls_last
+  """in descending order, nulls first"""
+  desc
+  """in descending order, nulls first"""
+  desc_nulls_first
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type query_root {
+  """fetch data from the table: "documents" using primary key columns"""
+  document(id: uuid!): documents
+  """fetch data from the table: "document_items" using primary key columns"""
+  documentItem(id: uuid!): documentItems
+  """
+  fetch data from the table: "document_items"
+  """
+  documentItems(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): [documentItems!]!
+  """
+  fetch aggregated fields from the table: "document_items"
+  """
+  documentItemsAggr(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): documentItems_aggregate!
+  """
+  fetch data from the table: "document_members"
+  """
+  document_members(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): [document_members!]!
+  """An aggregate relationship"""
+  document_members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): document_members_aggregate!
+  """
+  fetch data from the table: "document_members" using primary key columns
+  """
+  document_members_by_pk(id: uuid!): document_members
+  """
+  fetch data from the table: "document_roles"
+  """
+  document_roles(
+    """distinct select on columns"""
+    distinct_on: [document_roles_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_roles_order_by!]
+    """filter the rows returned"""
+    where: document_roles_bool_exp
+  ): [document_roles!]!
+  """
+  fetch aggregated fields from the table: "document_roles"
+  """
+  document_roles_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_roles_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_roles_order_by!]
+    """filter the rows returned"""
+    where: document_roles_bool_exp
+  ): document_roles_aggregate!
+  """fetch data from the table: "document_roles" using primary key columns"""
+  document_roles_by_pk(value: String!): document_roles
+  """
+  fetch data from the table: "documents"
+  """
+  documents(
+    """distinct select on columns"""
+    distinct_on: [documents_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documents_order_by!]
+    """filter the rows returned"""
+    where: documents_bool_exp
+  ): [documents!]!
+  """
+  fetch aggregated fields from the table: "documents"
+  """
+  documentsAggr(
+    """distinct select on columns"""
+    distinct_on: [documents_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documents_order_by!]
+    """filter the rows returned"""
+    where: documents_bool_exp
+  ): documents_aggregate!
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(email: String!, idpId: String!): users
+}
+
+type subscription_root {
+  """fetch data from the table: "documents" using primary key columns"""
+  document(id: uuid!): documents
+  """fetch data from the table: "document_items" using primary key columns"""
+  documentItem(id: uuid!): documentItems
+  """
+  fetch data from the table: "document_items"
+  """
+  documentItems(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): [documentItems!]!
+  """
+  fetch aggregated fields from the table: "document_items"
+  """
+  documentItemsAggr(
+    """distinct select on columns"""
+    distinct_on: [documentItems_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documentItems_order_by!]
+    """filter the rows returned"""
+    where: documentItems_bool_exp
+  ): documentItems_aggregate!
+  """
+  fetch data from the table: "document_members"
+  """
+  document_members(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): [document_members!]!
+  """An aggregate relationship"""
+  document_members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): document_members_aggregate!
+  """
+  fetch data from the table: "document_members" using primary key columns
+  """
+  document_members_by_pk(id: uuid!): document_members
+  """
+  fetch data from the table: "document_roles"
+  """
+  document_roles(
+    """distinct select on columns"""
+    distinct_on: [document_roles_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_roles_order_by!]
+    """filter the rows returned"""
+    where: document_roles_bool_exp
+  ): [document_roles!]!
+  """
+  fetch aggregated fields from the table: "document_roles"
+  """
+  document_roles_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_roles_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_roles_order_by!]
+    """filter the rows returned"""
+    where: document_roles_bool_exp
+  ): document_roles_aggregate!
+  """fetch data from the table: "document_roles" using primary key columns"""
+  document_roles_by_pk(value: String!): document_roles
+  """
+  fetch data from the table: "documents"
+  """
+  documents(
+    """distinct select on columns"""
+    distinct_on: [documents_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documents_order_by!]
+    """filter the rows returned"""
+    where: documents_bool_exp
+  ): [documents!]!
+  """
+  fetch aggregated fields from the table: "documents"
+  """
+  documentsAggr(
+    """distinct select on columns"""
+    distinct_on: [documents_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [documents_order_by!]
+    """filter the rows returned"""
+    where: documents_bool_exp
+  ): documents_aggregate!
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
+  """fetch data from the table: "users" using primary key columns"""
+  users_by_pk(email: String!, idpId: String!): users
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"""stores all users"""
+type users {
+  created_at: timestamptz!
+  """
+  fetch data from the table: "document_members"
+  """
+  document_members(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): [document_members!]!
+  """An aggregate relationship"""
+  document_members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [document_members_select_column!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    order_by: [document_members_order_by!]
+    """filter the rows returned"""
+    where: document_members_bool_exp
+  ): document_members_aggregate!
+  email: String!
+  id: uuid!
+  idpId: String!
+}
+
+"""
+aggregated selection of "users"
+"""
+type users_aggregate {
+  aggregate: users_aggregate_fields
+  nodes: [users!]!
+}
+
+"""
+aggregate fields of "users"
+"""
+type users_aggregate_fields {
+  count(columns: [users_select_column!], distinct: Boolean): Int!
+  max: users_max_fields
+  min: users_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input users_bool_exp {
+  _and: [users_bool_exp!]
+  _not: users_bool_exp
+  _or: [users_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  document_members: document_members_bool_exp
+  email: String_comparison_exp
+  id: uuid_comparison_exp
+  idpId: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum users_constraint {
+  """unique or primary key constraint"""
+  users_email_key
+  """unique or primary key constraint"""
+  users_id_key
+  """unique or primary key constraint"""
+  users_pkey
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input users_insert_input {
+  created_at: timestamptz
+  document_members: document_members_arr_rel_insert_input
+  email: String
+  id: uuid
+  idpId: String
+}
+
+"""aggregate max on columns"""
+type users_max_fields {
+  created_at: timestamptz
+  email: String
+  id: uuid
+  idpId: String
+}
+
+"""aggregate min on columns"""
+type users_min_fields {
+  created_at: timestamptz
+  email: String
+  id: uuid
+  idpId: String
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type users_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  data: users_insert_input!
+  """upsert condition"""
+  on_conflict: users_on_conflict
+}
+
+"""
+on_conflict condition type for table "users"
+"""
+input users_on_conflict {
+  constraint: users_constraint!
+  update_columns: [users_update_column!]! = []
+  where: users_bool_exp
+}
+
+"""Ordering options when selecting data from "users"."""
+input users_order_by {
+  created_at: order_by
+  document_members_aggregate: document_members_aggregate_order_by
+  email: order_by
+  id: order_by
+  idpId: order_by
+}
+
+"""primary key columns input for table: users"""
+input users_pk_columns_input {
+  email: String!
+  idpId: String!
+}
+
+"""
+select columns of table "users"
+"""
+enum users_select_column {
+  """column name"""
+  created_at
+  """column name"""
+  email
+  """column name"""
+  id
+  """column name"""
+  idpId
+}
+
+"""
+input type for updating data in table "users"
+"""
+input users_set_input {
+  created_at: timestamptz
+  email: String
+  id: uuid
+  idpId: String
+}
+
+"""
+update columns of table "users"
+"""
+enum users_update_column {
+  """column name"""
+  created_at
+  """column name"""
+  email
+  """column name"""
+  id
+  """column name"""
+  idpId
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}

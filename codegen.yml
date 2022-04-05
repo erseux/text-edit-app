@@ -1,0 +1,65 @@
+overwrite: true
+
+schema:
+- https://dashing-sloth-59.hasura.app/v1/graphql:
+    headers:
+      # PUSHA INTE!!!!!! GÖR EN .env och göm den eller nått!!!! OBS !!!!!!
+      x-hasura-admin-secret: dGfcd13o7UZU9asSOPLDvixFxXKrP3o70UJR4H4nq4K0nKOuU3CWaMDbSaOaaGnx
+
+documents:
+-  components/**/*.graphql
+-  pages/**/*.graphql
+-  lib/**/*.graphql
+- '!schema/graphql.graphql'
+
+
+generates:
+  schema/types.ts:
+    plugins:
+      - typescript
+
+    config:
+      immutableTypes: true
+      enumsAsTypes: true
+      strictScalars: true
+      scalars:
+        _numeric: number
+        numeric: number
+        _int2: number
+        _int4: number
+        _float8: number
+        bigint: string
+        bpchar: string
+        date: string
+        float8: number
+        _float4: number
+        interval: string
+        jsonb: Record<string, unknown> | null
+        timestamptz: string
+        timestamp: string
+        _uuid: string
+        uuid: string
+        bytea: string
+
+  # https://www.graphql-code-generator.com/docs/presets/near-operation-file
+  components/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: ../schema/types.ts
+    plugins:
+      - typescript-operations
+
+    # https://www.graphql-code-generator.com/docs/plugins/named-operations-object
+    # { refetchQueries: [namedOperations.Query.GetConnectors] }
+      - named-operations-object
+
+    # https://the-guild.dev/blog/typed-document-node
+      - typed-document-node
+
+
+  # https://www.graphql-code-generator.com/docs/plugins/schema-ast
+  schema/graphql.graphql:
+    plugins:
+      - schema-ast
+    config:
+      includeDirectives: true

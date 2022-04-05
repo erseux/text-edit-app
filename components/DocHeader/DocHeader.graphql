@@ -1,0 +1,40 @@
+query AllUsers {
+  users {
+    email
+    id
+  }
+}
+
+query DocumentMembers($id: uuid!) {
+  document(id: $id) {
+    members {
+      user {
+        email
+        id
+      }
+      role
+    }
+    owner {
+      email
+      id
+    }
+  }
+}
+
+mutation AddUserAccess($userId: uuid!, $docId: uuid!, $role: document_roles_enum!) {
+  insert_document_members_one(object: {userId: $userId, document_id: $docId, role: $role}) {
+    id
+  }
+}
+
+mutation RemoveUserAccess ($docId: uuid!, $userId: uuid!) {
+  delete_document_members(where: {document_id: {_eq: $docId}, userId: {_eq: $userId}}) {
+    affected_rows
+  }
+}
+
+mutation ChangeUserRole($docId: uuid!, $userId: uuid!, $newRole: document_roles_enum!) {
+  update_document_members(where: {document_id: {_eq: $docId}, userId: {_eq: $userId}}, _set: {role: $newRole}) {
+    affected_rows
+  }
+}

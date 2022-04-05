@@ -1,0 +1,68 @@
+query Document($id: uuid!) {
+  document(id: $id) {
+    id
+    title
+    ownerId
+    items {
+      id
+      text
+      index
+      flags
+      document_id
+    }
+    updated_at
+    owner {
+      id
+      email
+    }
+    members {
+      role
+      user {
+        id
+        email
+      }
+    }
+  }
+}
+
+mutation CreateItem($object: documentItems_insert_input!) {
+  insertDocumentItem(object: $object) {
+    id  
+  }
+}
+
+mutation SetItemIndex($new_index: Int!, $id: uuid!) {
+  updateDocumentItem(pk_columns: {id: $id}, _set: {index: $new_index}) {
+    id
+  }
+}
+
+query ItemId($index: Int!, $document_id: uuid!) {
+  documentItems(where: {index: {_eq: $index}, document_id: {_eq: $document_id}}) {
+    id
+  }
+}
+
+
+
+mutation SaveDocument($document: documents_insert_input!, $item: documentItems_insert_input!) {
+  insertDocument(object: $document, on_conflict: {constraint: documents_pkey, update_columns: [updated_at, title]}) {
+    id
+  }
+  insertDocumentItem(object: $item, on_conflict: {constraint: document_items_document_id_index_key, update_columns:[text, flags]}) {
+    id
+  }
+}
+
+mutation SaveTitle ($documentId: uuid!, $title: String!, $updated_at: timestamptz!) {
+  updateDocument(pk_columns: {id: $documentId}, _set: {title: $title, updated_at: $updated_at}) {
+    id
+    updated_at
+  }
+}
+
+mutation SaveItem ($itemId: uuid!, $text: String!) {
+  updateDocumentItem(pk_columns: {id: $itemId} _set: {text: $text}) {
+    id
+  }
+}

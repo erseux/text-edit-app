@@ -1,0 +1,24 @@
+subscription OwnedDocuments($userId: uuid!) {
+    owned: documents(where: {ownerId: {_eq: $userId}}, order_by: {created_at: asc}) {
+        id
+        title
+    }
+}
+subscription SharedDocuments($userId: uuid!) {
+    shared: documents(where: {members: {userId: {_eq: $userId}}}, order_by: {created_at: asc}) {
+        id
+        title
+    }
+}
+
+mutation CreateDocument($object: documents_insert_input!) {
+    insertDocument(object: $object) {
+        id
+    }
+}
+
+mutation CreateItem($object: documentItems_insert_input!) {
+  insertDocumentItem(object: $object) {
+    id  
+  }
+}

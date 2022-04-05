@@ -1,0 +1,8 @@
+query MeMyselfAndI($userIdpId: String!) {
+  users(where: { idpId: { _eq: $userIdpId } }) {
+    id
+    idpId
+    email
+  }
+}
+
