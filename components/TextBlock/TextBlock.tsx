@@ -48,16 +48,16 @@ export default function TextBlock(props: Props): JSX.Element {
 					props.removeBlock(props.item.index);
 				} else {
 					setValue(event.target.value)
-					props.onChange(event, props.item.id);
+					props.onChange(event);
 				}
 				setValue(event.target.value)
-				props.onChange(event, props.item.id);
+				props.onChange(event);
 			}
 			else if (event.key && event.key.length != 1) {
 			}
 			else {
 				setValue(event.target.value)
-				props.onChange(event, props.item.id);
+				props.onChange(event);
 			}
 		}
 	}
